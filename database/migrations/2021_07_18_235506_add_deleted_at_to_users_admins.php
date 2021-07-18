@@ -13,7 +13,7 @@ class AddDeletedAtToUsersAdmins extends Migration
      */
     public function up()
     {
-        Schema::table('users_amins', function (Blueprint $table) {
+        Schema::table('users_admins', function (Blueprint $table) {
             $table->softDeletes();
         });
     }
@@ -25,7 +25,7 @@ class AddDeletedAtToUsersAdmins extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('users_admins', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });
     }
