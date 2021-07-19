@@ -20,7 +20,7 @@ class CreateProductsPurchasesTable extends Migration
             $table->foreignId('purchase_id');
             $table->foreign('purchase_id')->references('id')->on('products_purchases');
             $table->char('status');
-            $table->interger('quantity');
+            $table->integer('quantity');
             $table->decimal('price');
             $table->timestamps();
             $table->softDeletes();
