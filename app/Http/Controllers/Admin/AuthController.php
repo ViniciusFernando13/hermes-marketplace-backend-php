@@ -2,43 +2,45 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
+use Throwable;
+use App\Actions\Admin\Auth as AuthAdminActions;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Throwable;
 
 class AuthController extends Controller
 {
 
+    /**
+     * Does sign in
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function signIn(Request $request)
     {
-        # code...
+        try {
+            $token = (new AuthAdminActions\SignInAction)($request->all());
+
+            return response()->json(['token' => $token]);
+        } catch (\Throwable $e) {
+            return response()->json(["message" => $e->getMessage()], 400);
+        }
     }
 
+    /**
+     * Does sign up
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function signUp(Request $request)
     {
 
         try {
             DB::beginTransaction();
 
-            $validate = Validator::make($request->only(['name', 'email', 'password', 'password_confirmation']), [
-                'name'                  => 'required',
-                'email'                 => 'required|email|unique:users,email',
-                'password'              => 'required|min:6|max:16|confirmed',
-                'password_confirmation' => 'required|min:6|max:16'
-            ])->validate();
-
-            $user = User::create(array_merge(
-                $validate,
-                [
-                    'password' => Hash::make($validate['password'])
-                ]
-            ));
-
-            $user->user_admin()->create();
+            $user = (new AuthAdminActions\SignUpAction)($request->all());
 
             DB::commit();
 

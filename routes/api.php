@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => 'admin'], function (Router $router) {
-    $router->post('sign_up', [Controllers\Admin\AuthController::class, 'signUp']);
+Route::group(['prefix' => 'auth'], function (Router $router) {
+    Route::group(['prefix' => 'admin'], function (Router $router) {
+        $router->post('sign_in', [Controllers\Admin\AuthController::class, 'signIn']);
+        $router->post('sign_up', [Controllers\Admin\AuthController::class, 'signUp']);
+    });
 });
