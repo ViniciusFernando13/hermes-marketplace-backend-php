@@ -22,3 +22,9 @@ Route::group(['prefix' => 'auth'], function (Router $router) {
         $router->post('sign_up', [Controllers\Admin\AuthController::class, 'signUp']);
     });
 });
+
+Route::group(['prefix' => 'admin', 'middleware' => ['auth:sanctum', 'is_user_admin']], function (Router $router) {
+    Route::group(['prefix' => 'sellers'], function (Router $router) {
+        $router->post('', [Controllers\Admin\SellersController::class, 'store']);
+    });
+});
