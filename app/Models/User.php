@@ -45,4 +45,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserAdmin::class);
     }
+
+
+    public function user_seller()
+    {
+        return $this->hasOne(UserSeller::class);
+    }
 }

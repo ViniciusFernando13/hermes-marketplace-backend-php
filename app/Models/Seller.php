@@ -28,4 +28,12 @@ class Seller extends Model
         'phone',
         'email'
     ];
+
+    /**
+     * Get the users for seller.
+     */
+    public function users()
+    {
+        return $this->hasMany(UserSeller::class);
+    }
 }
